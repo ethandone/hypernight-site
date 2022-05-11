@@ -20,15 +20,15 @@ body, html{
 
 .archive-container{
     width: 70%;
-    max-width: 1200px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    max-width: 1300px;
 }
+
+
 
 .main img {
     width: 400px;
     height: auto;
+    margin: 5px 0px;
 }
 
 .footer{
@@ -50,3 +50,8 @@ a{
     text-decoration: none;
     color: whitesmoke;
 }
+
+.selected a{
+    text-decoration: underline ;
+}
+

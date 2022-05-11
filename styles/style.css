@@ -49,3 +49,7 @@ a{
     text-decoration: none;
     color: whitesmoke;
 }
+
+.selected a{
+    text-decoration: underline ;
+}
