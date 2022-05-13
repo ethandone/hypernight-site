@@ -1,10 +1,12 @@
 body, html{
-    margin: 0px;
-    padding: 0px;
     background-color: black;
     color: whitesmoke;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden; 
     font-family: monospace;
-    
 }
 
 .header{
@@ -14,11 +16,12 @@ body, html{
 
 .main{
     display: flex;
-    min-height: calc(100vh - (50px + 21px));
+    min-height: calc(100vh - (50px + 41px));
     justify-content: center;
 }
 
 .archive-container{
+
     width: 70%;
     max-width: 1300px;
 }
@@ -36,6 +39,8 @@ body, html{
     justify-content: center;
     align-items: center;
     border: 1px white;
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 ul {
@@ -55,3 +60,14 @@ a{
     text-decoration: underline ;
 }
 
+.footer img{
+    height: 25px;
+    width: auto;
+}
+
+.footerwrapper{
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    justify-content: space-between;
+}
