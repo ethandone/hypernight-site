@@ -29,10 +29,17 @@ body, html{
 }
 
 
-
 .main img {
     width: 400px;
     height: auto;
+    margin: 5px 5px;
+
+}
+
+@media only screen and (max-width: 400px) {
+    .main img {
+        width: 90vw;
+    }
 }
 
 img:hover {
