@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HYPERNIGHT</title>
     <link rel="stylesheet" href="../styles/style-archive.css">
-    <script src="../scripts/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
 </head>
+
 <body>
     <div class="header">
         <ul>
@@ -31,7 +33,7 @@
         </ul>
     </div>
     <div class="main">
-        <div class="archive-container" data-masonry='{ "itemSelector": ".item", "gutter":5}'>
+        <div class="archive-container">
             <div class="item">
                 <img src="../images/london4.jpg">
             </div>
@@ -69,4 +71,18 @@
         </div>
     </div>
 </body>
+<script>
+    var grid = document.querySelector('.archive-container');
+
+    var msnry = new Masonry( grid, {
+    itemSelector: '.item',
+    percentPosition: true,
+    fitWidth: true
+    });
+
+    imagesLoaded( grid ).on( 'progress', function() {
+    // layout Masonry after each image loads
+    msnry.layout();
+    });
+</script>
 </html>

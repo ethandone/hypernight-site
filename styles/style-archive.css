@@ -21,9 +21,11 @@ body, html{
 }
 
 .archive-container{
-
     width: 70%;
-    max-width: 1300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 5px;
 }
 
 
@@ -31,8 +33,19 @@ body, html{
 .main img {
     width: 400px;
     height: auto;
-    margin: 5px 0px;
 }
+
+img:hover {
+    transform: scale(1.05);
+    -moz-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -o-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -webkit-transition: transform 0.2s;
+    -moz-transition:transform 0.2s;
+    -ms-transition:transform 0.2s;
+    }
 
 .footer{
     display: flex;

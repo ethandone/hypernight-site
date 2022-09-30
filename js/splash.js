@@ -1,92 +1,114 @@
-"use strict";
 
-var camera, scene, renderer, mesh, material, box, boxWireFrame, boxWireFrame2;
 
-init();
-animate();
 
-function init() {
-    // Renderer
-    renderer = new THREE.WebGLRenderer({ alpha: true });
-    
-    var container = document.getElementById('img-container'); // get div by id to display canvas
-    var w = container.offsetWidth;
-    var h = container.offsetHeight;
-    renderer.setSize(w, h);
-    container.appendChild(renderer.domElement);
-    camera = new THREE.PerspectiveCamera(70, w / h, 1, 1000);
-    camera.position.z = 400;
+			function init() {
 
-    // Create scene.
-    scene = new THREE.Scene();
+				container = document.getElementById('img-container');
 
-    // Box One
-    box = new THREE.Object3D();
-    scene.add(box);
-    var geom = new THREE.BoxGeometry(40, 40, 40);
-    var mat = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      side: THREE.DoubleSide
-    });
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.z = 250;
 
-    var boxOne = new THREE.Mesh(geom, mat);
-    boxOne.rotation.set(11, 4, Math.PI / 1);
-    box.add(boxOne);
+				// scene
 
-    // Box Two
-    boxWireFrame = new THREE.Object3D();
-    scene.add(boxWireFrame);
-    var geom2 = new THREE.BoxGeometry(100, 100, 100);
-    var mat2 = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      wireframe: true,
-      side: THREE.DoubleSide
-    });
+				scene = new THREE.Scene();
 
-    var boxTwo = new THREE.Mesh(geom2, mat2);
-    boxTwo.rotation.set(11, 4, Math.PI / 1);
-    boxWireFrame.add(boxTwo);
+				const ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
+				scene.add( ambientLight );
 
-    //Box Three
-    boxWireFrame2 = new THREE.Object3D();
-    scene.add(boxWireFrame2);
-    var geom3 = new THREE.BoxGeometry(200, 200, 200);
-    var mat3 = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      wireframe: true,
-      side: THREE.DoubleSide
-    });
+				const pointLight = new THREE.PointLight( 0xffffff, 0.8 );
+				camera.add( pointLight );
+				scene.add( camera );
 
-    var boxThree = new THREE.Mesh(geom3, mat3);
-    boxThree.rotation.set(10, 4, Math.PI / 1);
-    boxWireFrame2.add(boxThree);
+				// manager
 
-  // Add lights to scene
-  var ambientLight = new THREE.AmbientLight(0x999999 );
-  scene.add(ambientLight);
+				function loadModel() {
 
-  var lights = [];
-    lights[0] = new THREE.DirectionalLight( 0xffffff, 1 );
-    lights[0].position.set( 1, 0, 0 );
-    lights[1] = new THREE.DirectionalLight( 0x11E8BB, 1 );
-    lights[1].position.set( 0.75, 1, 0.5 );
-    lights[2] = new THREE.DirectionalLight( 0x8200C9, 1 );
-    lights[2].position.set( -0.75, -1, 0.5 );
-    scene.add( lights[0] );
-    scene.add( lights[1] );
-    scene.add( lights[2] ); 
-}
+					object.traverse( function ( child ) {
 
-// animation
-function animate() {
-    requestAnimationFrame(animate);
-    box.rotation.x += 0.002;
-    box.rotation.y += 0.005;
+						if ( child.isMesh ) child.material.map = texture;
 
-    boxWireFrame.rotation.x += 0.005;
-    boxWireFrame.rotation.y += 0.002;
+					} );
 
-    boxWireFrame2.rotation.x += 0.002;
-    boxWireFrame2.rotation.y += 0.003;
-    renderer.render(scene, camera);
-}
+					object.position.y = - 95;
+					scene.add( object );
+
+				}
+
+				const manager = new THREE.LoadingManager( loadModel );
+
+				// model
+
+				function onProgress( xhr ) {
+
+					if ( xhr.lengthComputable ) {
+
+						const percentComplete = xhr.loaded / xhr.total * 100;
+						console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
+
+					}
+
+				}
+
+				function onError() {}
+
+				const loader = new OBJLoader( manager );
+				loader.load( 'models\tree.obj', function ( obj ) {
+
+					object = obj;
+
+				}, onProgress, onError );
+
+				//
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				document.addEventListener( 'mousemove', onDocumentMouseMove );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize );
+
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				mouseX = ( event.clientX - windowHalfX ) / 2;
+				mouseY = ( event.clientY - windowHalfY ) / 2;
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function render() {
+
+				camera.position.x += ( mouseX - camera.position.x ) * .05;
+				camera.position.y += ( - mouseY - camera.position.y ) * .05;
+
+				camera.lookAt( scene.position );
+
+				renderer.render( scene, camera );
+
+			}
+
