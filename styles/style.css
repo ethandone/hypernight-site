@@ -4,6 +4,8 @@ body, html{
     background-color: black;
     color: whitesmoke;
     font-family: monospace;
+    height: 100vh;
+    width: 100vw;
 }
 
 .header{
@@ -36,6 +38,19 @@ body, html{
     border: 1px white;
     margin-top: 15px;
     margin-bottom: 5px;
+}
+
+@media only screen and (max-width: 400px) {
+    #img-container {
+        width: 90vw;
+        height: 90vw;
+        justify-content: center;
+        align-items: center;
+    }
+    .main img {
+        width: 90vw;
+        height: auto;
+    }
 }
 
 ul {
