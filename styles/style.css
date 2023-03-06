@@ -26,6 +26,10 @@ body, html{
 #img-container{
     width: 500px;
     height: 750px;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .main img {
